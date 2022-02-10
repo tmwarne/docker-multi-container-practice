@@ -1,11 +1,11 @@
 import React from 'react';
-import { link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom'
+// eslint-disable-next-line
 export default () => {
     return (
         <div>
             I'm some other page!
-            <link to="/">Go back home</link>
+            <Link to="/">Go back home</Link>
         </div>
     );
 };
