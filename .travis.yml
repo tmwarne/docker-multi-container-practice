@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t tmwarne/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true tmwarne/react-test npm test
+
+after_success:
+  - docker build -t tmwarne/multi-client ./client
+  - docker build -t tmwarne/multi-nginx ./nginx
+  - docker build -t tmwarne/multi-server ./server
+  - docker build -t tmwarne/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push tmwarne/multi-client
+  - docker push tmwarne/multi-nginx
+  - docker push tmwarne/multi-server
+  - docker push tmwarne/multi-worker
